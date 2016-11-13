@@ -3,13 +3,13 @@
 
 #include "Common.h"
 
-#ifdef UNIX
+#ifdef WINDOWS
+//typedef unsigned long DWORD;
+typedef HANDLE THREAD_HANDLE;
+#else
 typedef unsigned long DWORD;
 typedef pthread_t THREAD_HANDLE;
 typedef void* LPVOID;
-#elif WINDOWS
-//typedef unsigned long DWORD;
-typedef HANDLE THREAD_HANDLE;
 #endif
 
 class CThread
@@ -27,7 +27,7 @@ public:
 
 #ifdef WINDOWS
 	static DWORD WINAPI _ThreadEntry(LPVOID pParam);
-#elif UNIX
+#else
 	static void * _ThreadEntry(void *pParam);
 #endif
 

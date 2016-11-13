@@ -1,14 +1,13 @@
-//#define UNIX
 #ifndef COMMON_H
 #define COMMON_H
 
 
-#ifdef UNIX
-#include "pthread.h"
-#elif WINDOWS
+#ifdef WINDOWS
 #include <windows.h>
 #include <process.h>
-
+#else
+#include "pthread.h"
+#include "unistd.h"
 #endif
 
 #endif

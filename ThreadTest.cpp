@@ -1,15 +1,16 @@
 #include "ThreadTest.h"
 #include <iostream>
 #include <ctime>
+#include <cstdlib>
 using namespace std;
 
 int threadnum=0;
 
 CThreadTest::CThreadTest():CThread()
 {
-	
+
 	num = ++threadnum;
-	
+
 }
 
 CThreadTest::~CThreadTest()

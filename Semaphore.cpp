@@ -10,7 +10,8 @@ CSemaphore::CSemaphore( int count,const char* name)
 			m_semap = OpenSemaphore(SEMAPHORE_ALL_ACCESS,FALSE,name);
 		}
 	}
-#elif UNIX
+#else
+
 #endif
 }
 
@@ -18,7 +19,7 @@ void CSemaphore::Lock( void )
 {
 #ifdef WINDOWS
 	WaitForSingleObject(m_semap,INFINITE);
-#elif UNIX
+#else
 
 #endif // WINDOWS
 }
@@ -27,7 +28,8 @@ void CSemaphore::UnLock()
 {
 #ifdef WINDOWS
 	ReleaseSemaphore(m_semap,1,NULL);
-#elif UNIX
+#else
+
 #endif // WINDOWS
 
 }
@@ -36,7 +38,8 @@ bool CSemaphore::TryLock()
 {
 #ifdef WINDOWS
 	return WaitForSingleObject(m_semap,0) == WAIT_OBJECT_0 ;
-#elif UNIX
+#else
+
 #endif
 }
 

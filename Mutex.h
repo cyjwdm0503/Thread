@@ -1,10 +1,12 @@
 #ifndef MUTEX_H
 #define MUTEX_H
 
-#ifdef UNIX
-#include "pthread.h"
-#elif WINDOWS
+#include "Common.h"
+
+#ifdef WINDOWS
 #include <windows.h>
+#else
+#include "pthread.h"
 #endif
 
 class CMutex
@@ -20,8 +22,8 @@ public:
 public:
 #ifdef WINDOWS
 	HANDLE m_lock;
-#elif UNIX
-	
+#else
+    pthread_mutex_t m_lock;
 #endif
 };
 

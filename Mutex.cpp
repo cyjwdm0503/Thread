@@ -5,7 +5,8 @@ CMutex::CMutex()
 {
 #ifdef WINDOWS
 	m_lock =  CreateMutex(NULL,FALSE,NULL);
-#elif UNIX
+#else
+    pthread_mutex_init(&m_lock,NULL);
 #endif
 }
 
@@ -20,7 +21,8 @@ CMutex::CMutex( const char* name )
 			m_lock =  OpenMutex(MUTEX_ALL_ACCESS,FALSE,name);
 		}
 	}
-#elif UNIX
+#else
+    pthread_mutex_init(&m_lock,NULL);
 #endif
 }
 
@@ -28,6 +30,8 @@ CMutex::~CMutex()
 {
 #ifdef WINDOWS
 	CloseHandle(m_lock);
+#else
+    pthread_mutex_destroy(&m_lock);
 #endif
 }
 
@@ -35,8 +39,8 @@ void CMutex::Lock()
 {
 #ifdef WINDOWS
 	WaitForSingleObject(m_lock,INFINITE);
-#elif UNIX
-
+#else
+    pthread_mutex_lock(&m_lock);
 #endif
 
 }
@@ -45,6 +49,8 @@ void CMutex::UnLock()
 {
 #ifdef WINDOWS
 	ReleaseMutex(m_lock);
+#else
+    pthread_mutex_unlock(&m_lock);
 #endif
 }
 
@@ -52,8 +58,8 @@ bool CMutex::TryLock()
 {
 #ifdef WINDOWS
 	return (WaitForSingleObject(m_lock,0) == WAIT_OBJECT_0);
-#elif UNIX
-
+#else
+    return  pthread_mutex_trylock(&m_lock) == 0;
 #endif
 }
 

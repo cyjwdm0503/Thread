@@ -1,14 +1,14 @@
 #include "Thread.h"
+#include <cstring>
 
 
 CThread::CThread()
 {
 	m_IDThread = 0;
-#ifdef UNIX
-	m_hThread.p = NULL;
-	m_hThread.x =  0;
-#elif WINDOWS
-	m_hThread = (THREAD_HANDLE)0;
+#ifdef WINDOWS
+    m_hThread = (THREAD_HANDLE)0;
+#else
+    memset(&m_hThread,0,sizeof(m_hThread));
 #endif
 
 }
@@ -16,20 +16,21 @@ CThread::CThread()
 CThread::~CThread()
 {
 	m_IDThread = 0;
-#ifdef UNIX
-	m_hThread.p = NULL;
-	m_hThread.x =  0;
-#elif WINDOWS
-	m_hThread = (THREAD_HANDLE)0;
+#ifdef WINDOWS
+    m_hThread = (THREAD_HANDLE)0;
+#else
+	 memset(&m_hThread,0,sizeof(m_hThread));
 #endif
 }
 
 bool CThread::Create( void )
 {
-#ifdef UNIX
-	
-#elif WINDOWS
-	m_hThread = ::CreateThread(NULL,0,_ThreadEntry,this,0,&m_IDThread);
+#ifdef WINDOWS
+    m_hThread = ::CreateThread(NULL,0,_ThreadEntry,this,0,&m_IDThread);
+#else
+    pthread_attr_t attr;
+    pthread_attr_init(&attr);
+    pthread_create(&m_hThread,NULL,_ThreadEntry,(void*)this);
 #endif
 	return true;
 }
@@ -51,7 +52,11 @@ void CThread::Run()
 
 void CThread::SleepMs(int ms)
 {
+#ifdef WINDOWS
 	::Sleep(ms);
+#else
+    usleep(ms*1000);
+#endif
 }
 
 THREAD_HANDLE CThread::GetHandle()
@@ -61,6 +66,9 @@ THREAD_HANDLE CThread::GetHandle()
 
 #ifdef WINDOWS
 DWORD WINAPI CThread::_ThreadEntry( LPVOID pParam )
+#else
+void * CThread::_ThreadEntry(void *pParam)
+#endif // WINDOWS
 {
 	CThread* pthread = (CThread*)pParam;
 	if(pthread != NULL)
@@ -73,19 +81,14 @@ DWORD WINAPI CThread::_ThreadEntry( LPVOID pParam )
 	}
 	return 0;
 }
-#elif UNIX
-static void * _ThreadEntry(void *pParam)
-{
-	return NULL;
-}
-#endif
 
 
 bool CThread::Join()
 {
 #ifdef WINDOWS
 	return (WaitForSingleObject(GetHandle(),INFINITE) != 0);
-#elif UNIX
-
+#else
+    void* status;
+    return pthread_join(m_hThread,&status);
 #endif
 }
