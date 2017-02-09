@@ -1,7 +1,7 @@
 #include "Thread.h"
 #include "Mutex.h"
-
-static CMutex* glo =  new CMutex("TEST");
+#include "Semaphore.h"
+static CSemaphore* glo =  new  CSemaphore(3,"TEST");
 
 class CThreadTest:public CThread
 {

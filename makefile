@@ -3,7 +3,7 @@
 CC=g++
 CFLAGS= -ldl -lpthread -g 
 INCLUDE= -I.
-alllob=main.o Thread.o ThreadTest.o Mutex.o
+alllob=main.o Thread.o ThreadTest.o Mutex.o Semaphore.o
 
 
 target:testmain
@@ -18,6 +18,8 @@ Thread.o:Thread.cpp Thread.h
 	$(CC) $(CFLAGS) -o $@ -c $<
 testmain:$(alllob)
 	$(CC) $(CFLAGS) $^ -o $@
+Semaphore.o:Semaphore.cpp Semaphore.h
+	$(CC) $(CFLAGS) -o $@ -c $<
 
 clean:
-	rm *.o
+	rm *.o testmain

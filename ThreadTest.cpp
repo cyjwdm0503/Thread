@@ -37,7 +37,7 @@ bool CThreadTest::InitInstance()
 void CThreadTest::Run()
 {
 
-	srand(time(NULL));
+
 	int ms = (rand()%5+1)*1000;
 	cout<<num<<"SleepMs"<<ms<<endl;
 	SleepMs(ms);

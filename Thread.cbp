@@ -32,6 +32,20 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="Common.h" />
+		<Unit filename="Mutex.cpp" />
+		<Unit filename="Mutex.h" />
+		<Unit filename="MutexGuard.cpp" />
+		<Unit filename="MutexGuard.h" />
+		<Unit filename="Semaphore.cpp" />
+		<Unit filename="Semaphore.h" />
+		<Unit filename="Thread.cpp" />
+		<Unit filename="Thread.h" />
+		<Unit filename="ThreadTest.cpp" />
+		<Unit filename="ThreadTest.h" />
+		<Unit filename="include/pthread.h" />
+		<Unit filename="include/sched.h" />
+		<Unit filename="include/semaphore.h" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />
