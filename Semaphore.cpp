@@ -19,8 +19,12 @@ CSemaphore::CSemaphore( int count,const char* name)
 
 CSemaphore::~CSemaphore()
 {
+#ifdef WINDOWS
+
+#else
     pthread_cond_destroy(&m_semap);
     pthread_mutex_destroy(&mtx);
+#endif
 }
 
 void CSemaphore::Lock( int* pCount )
